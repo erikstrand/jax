@@ -487,6 +487,11 @@ class ArrayImpl(basearray.Array):
     return self
 
   @use_cpp_method()
+  def is_ready(self):
+    self._check_if_deleted()
+    return all(db.is_ready() for db in self._arrays)
+
+  @use_cpp_method()
   def _single_device_array_to_np_array(self):
     return np.asarray(self._arrays[0])
 

@@ -2863,6 +2863,24 @@ def block_until_ready(x):
       return x
   return tree_map(try_to_block, x)
 
+def is_ready(x):
+  """
+  Tries to call a ``is_ready`` method on pytree leaves.
+
+  Args:
+    x: a pytree, usually with at least some JAX array instances at its leaves.
+
+  Returns:
+    ``True`` if ``is_ready`` returns ``True`` for all pytree leaves for which
+    such a method exists. ``False`` otherwise.
+  """
+  def try_to_check_ready(x):
+    try:
+      return x.is_ready()
+    except AttributeError:
+      return True
+  return all(try_to_check_ready(leaf) for leaf in tree_leaves(x))
+
 
 def clear_backends():
   """
