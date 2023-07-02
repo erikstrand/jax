@@ -739,6 +739,13 @@ class Tracer(typing.Array):
       f"{self._origin_msg()}")
 
   @property
+  def is_ready(self):
+    # Raise AttribureError for backward compatibility with hasattr() and getattr() checks.
+    raise AttributeError(self,
+      f"The 'is_ready' method is not available on {self._error_repr()}."
+      f"{self._origin_msg()}")
+
+  @property
   def copy_to_host_async(self):
     # Raise AttribureError for backward compatibility with hasattr() and getattr() checks.
     raise AttributeError(self,
